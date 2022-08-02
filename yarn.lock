@@ -8270,9 +8270,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"via-keyboards@https://github.com/the-via/keyboards.git":
+"via-keyboards@https://github.com/WestBerryVIA/keyboards.git":
   version "0.0.1"
-  resolved "https://github.com/the-via/keyboards.git#afb405a7f35fc36b55e45196a1491bde2e345130"
+  resolved "https://github.com/WestBerryVIA/keyboards.git#afb405a7f35fc36b55e45196a1491bde2e345130"
   dependencies:
     "@types/bluebird" "^3.5.28"
     "@types/glob" "^7.1.1"

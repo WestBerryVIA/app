@@ -26,7 +26,7 @@ jobs:
       - name: Checkout definitions repo
         uses: actions/checkout@master
         with:
-          repository: the-via/keyboards
+          repository: WestBerryVIA/keyboards
           path: keyboards
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
