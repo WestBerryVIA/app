@@ -1,0 +1,35 @@
+name: publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: |
+          yarn
+          yarn build
+          git clone ${{ secrets.REPO_URL }}
+          cd ${{ secrets.REPO_NAME }}
+          git config user.email "app-bot@westberry.com"
+          git config user.name "app-bot"
+          cp -rf ../build/* .
+          git add .
+          git commit -m "Update at $(date "+%Y-%m-%d %H:%M:%S")" || true
+          git push
