@@ -1,0 +1,46 @@
+name: publish
+
+on:
+  release:
+    types:
+      - published
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: |
+          python3 ./replace.py
+          npm install
+          npm run build:azure
+          git clone ${{ secrets.REPO_URL }}
+          cd ${{ secrets.REPO_NAME }}
+          git config user.email "app-bot@westberry.com"
+          git config user.name "app-bot"
+          cp -rf ../dist/* .
+          git add .
+          git commit -m "Update at $(date "+%Y-%m-%d %H:%M:%S")" || true
+          git push
